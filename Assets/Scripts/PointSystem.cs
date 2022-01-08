@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
@@ -16,7 +15,7 @@ public class PointSystem : MonoBehaviour
     private List<TextMeshProUGUI> _valueList;
     private TextMeshProUGUI _pointsAvailableText;
 
-    private void Start()
+    private void OnEnable()
     {
         _emotions = new Emotion[4];
         for (var i = 0; i < 4; i++)
@@ -38,6 +37,8 @@ public class PointSystem : MonoBehaviour
 
         var doneButton = GameObject.Find("Done").GetComponent<Button>();
         doneButton.onClick.AddListener(() => { Toggle(true); });
+        
+        Toggle(false);
     }
 
     private void UpdateValue(string valueName, bool plus)
@@ -63,18 +64,22 @@ public class PointSystem : MonoBehaviour
         PointsAvailable -= increment;
         _pointsAvailableText.text = PointsAvailable.ToString();
     }
-
-    private void Toggle(bool down)
+    
+    private async void Toggle(bool down)
     {
         const Ease ease = Ease.OutExpo;
         const float timing = .4f;
         var canvasGroup = GetComponent<CanvasGroup>();
         DOTween.To(() => canvasGroup.alpha, value => canvasGroup.alpha = value, down ? 0 : 1, timing)
             .SetEase(ease);
-        transform.DOMoveY(transform.position.y - 200, timing).SetEase(ease);
+        transform.DOMoveY(transform.position.y - (down ? 200 : -200), timing).SetEase(ease);
 
-        var kevinTransform = GameManager.Instance.Kevin.transform;
-        kevinTransform.DOMoveY(down ? 0 : 2.5f, timing).SetEase(ease);
+        var kevinTransform = GameManager.Instance.kevin.transform;
+        var tween = kevinTransform.DOMoveY(down ? 0 : 2.5f, timing).SetEase(ease);
+        
+        await tween.AsyncWaitForCompletion();
+        GameManager.Instance.SetAttributingState(!down);
+        gameObject.SetActive(!down);
     }
 
     private class Emotion

@@ -1,15 +1,14 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public int GameTime { get; private set; }
-    public GameObject Kevin { get; private set; }
-    
+    public GameObject kevin;
+    public PointSystem pointSystem;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -24,11 +23,21 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Kevin = GameObject.Find("Kevin");
+        kevin = GameObject.Find("Kevin");
+
+        kevin.GetComponent<KevinAnimator>().BootUp();
+        StartCoroutine(test());
     }
 
-    private void Update()
+    public void SetAttributingState(bool attributing)
     {
-        GameTime = (int) Time.time;
+        kevin.GetComponent<KevinAnimator>().SetAttributingState(attributing);
+        pointSystem.gameObject.SetActive(attributing);
+    }
+
+    IEnumerator test()
+    {
+        yield return new WaitForSeconds(4);
+        SetAttributingState(true);
     }
 }
