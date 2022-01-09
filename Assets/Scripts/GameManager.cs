@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public int scene;
     public GameObject kevin;
     public PointSystem pointSystem;
 
