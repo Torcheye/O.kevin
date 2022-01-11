@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class PointSystem : MonoBehaviour
 {
     [SerializeField] private int maxPointsAvailable = 10;
+    [SerializeField] private KevinController kevin;
     private int PointsAvailable { get; set; }
     private Emotion[] _emotions;
 
@@ -69,13 +70,12 @@ public class PointSystem : MonoBehaviour
     {
         const Ease ease = UISettings.PointSystemToggleTransitionEase;
         const float timing = UISettings.PointSystemToggleTransitionTime;
+        
         var canvasGroup = GetComponent<CanvasGroup>();
         canvasGroup.DOFade(down ? 0 : 1, timing)
             .SetEase(ease);
-        transform.DOMoveY(transform.position.y - (down ? 200 : -200), timing).SetEase(ease);
-
-        var kevinTransform = GameManager.Instance.kevin.transform;
-        var tween = kevinTransform.DOMoveY(down ? 0 : 2.1f, timing).SetEase(ease);
+        var tween = transform.DOMoveY(transform.position.y - (down ? 200 : -200), timing).SetEase(ease);
+        kevin.TogglePosition(down, timing, ease);
         
         await tween.AsyncWaitForCompletion();
         GameManager.Instance.SetAttributingState(!down);

@@ -7,9 +7,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public int scene;
-    public GameObject kevin;
     public PointSystem pointSystem;
 
+    [SerializeField] private GameObject kevin;
+    
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -24,15 +25,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        kevin = GameObject.Find("Kevin");
-
-        kevin.GetComponent<KevinAnimator>().BootUp();
+        kevin.GetComponent<KevinController>().BootUp();
         StartCoroutine(test());
     }
 
     public void SetAttributingState(bool attributing)
     {
-        kevin.GetComponent<KevinAnimator>().SetAttributingState(attributing);
+        kevin.GetComponent<KevinController>().SetAttributingState(attributing);
         pointSystem.gameObject.SetActive(attributing);
     }
 
