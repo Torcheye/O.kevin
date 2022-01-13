@@ -8,7 +8,9 @@ public class UISettings : MonoBehaviour
     public const Ease PointSystemToggleTransitionEase = Ease.OutExpo;
     public const float SceneSwipeTransitionTime = .4f;
     public const Ease SceneSwipeTransitionEase = Ease.OutExpo;
-    public static float objectsSwipeMoveScalerToUI = 0;
+    public const float InventoryToggleTransitionTime = .4f;
+    public const Ease InventoryToggleTransitionEase = Ease.OutExpo;
+    public static float ObjectsSwipeMoveScalerToUI = 0;
 
     private void Start()
     {
@@ -17,7 +19,7 @@ public class UISettings : MonoBehaviour
         {
             var deltaPos = cam.ScreenToWorldPoint(new Vector2(Screen.width / 2f, 0)) -
                            cam.ScreenToWorldPoint(new Vector2(-Screen.width / 2f, 0));
-            objectsSwipeMoveScalerToUI = deltaPos.x / Screen.width;
+            ObjectsSwipeMoveScalerToUI = deltaPos.x / Screen.width;
         }
     }
 }

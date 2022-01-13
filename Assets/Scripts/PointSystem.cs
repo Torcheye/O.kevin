@@ -10,11 +10,12 @@ public class PointSystem : MonoBehaviour
 {
     [SerializeField] private int maxPointsAvailable = 10;
     [SerializeField] private KevinController kevin;
+    [SerializeField] private TextMeshProUGUI pointsAvailableText;
+    [SerializeField] private Button doneButton;
     private int PointsAvailable { get; set; }
     private Emotion[] _emotions;
 
     private List<TextMeshProUGUI> _valueList;
-    private TextMeshProUGUI _pointsAvailableText;
 
     private void OnEnable()
     {
@@ -25,7 +26,6 @@ public class PointSystem : MonoBehaviour
         }
 
         PointsAvailable = maxPointsAvailable;
-        _pointsAvailableText = GameObject.Find("PointsAvailable").GetComponent<TextMeshProUGUI>();
         _valueList = GetComponentsInChildren<TextMeshProUGUI>().ToList()
             .FindAll(ugui => ugui.CompareTag("PointSystem.Value"));
         
@@ -36,7 +36,6 @@ public class PointSystem : MonoBehaviour
             button.onClick.AddListener(() => UpdateValue(button.name, button.CompareTag("PointSystem.Plus")));
         }
 
-        var doneButton = GameObject.Find("Done").GetComponent<Button>();
         doneButton.onClick.AddListener(() => { Toggle(true); });
         
         Toggle(false);
@@ -63,7 +62,7 @@ public class PointSystem : MonoBehaviour
         text.text = emotion.Value.ToString();
 
         PointsAvailable -= increment;
-        _pointsAvailableText.text = PointsAvailable.ToString();
+        pointsAvailableText.text = PointsAvailable.ToString();
     }
     
     private async void Toggle(bool down)

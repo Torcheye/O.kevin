@@ -55,7 +55,7 @@ public class InputManager : MonoBehaviour
 
         var xDiff = GameManager.Instance.scene * Screen.width;
         screen.DOAnchorPosX(xDiff, UISettings.SceneSwipeTransitionTime).SetEase(UISettings.SceneSwipeTransitionEase);
-        gameObjects.DOMoveX(xDiff * UISettings.objectsSwipeMoveScalerToUI, UISettings.SceneSwipeTransitionTime)
+        gameObjects.DOMoveX(xDiff * UISettings.ObjectsSwipeMoveScalerToUI, UISettings.SceneSwipeTransitionTime)
             .SetEase(UISettings.SceneSwipeTransitionEase);
     }
 
@@ -64,6 +64,6 @@ public class InputManager : MonoBehaviour
         var touch = finger.currentTouch;
         var xDiffUI = touch.screenPosition.x - touch.startScreenPosition.x;
         screen.anchoredPosition = new Vector2(_xStartUI + xDiffUI, 0);
-        gameObjects.position = new Vector3(_xStartObjects + xDiffUI * UISettings.objectsSwipeMoveScalerToUI, 0, 0);
+        gameObjects.position = new Vector3(_xStartObjects + xDiffUI * UISettings.ObjectsSwipeMoveScalerToUI, 0, 0);
     }
 }
