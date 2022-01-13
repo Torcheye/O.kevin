@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public int scene;
     public PointSystem pointSystem;
+    public Inventory inventory;
 
     [SerializeField] private GameObject kevin;
     
@@ -26,7 +27,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         kevin.GetComponent<KevinController>().BootUp();
-        StartCoroutine(test());
+        StartCoroutine(Test());
     }
 
     public void SetAttributingState(bool attributing)
@@ -35,7 +36,12 @@ public class GameManager : MonoBehaviour
         pointSystem.gameObject.SetActive(attributing);
     }
 
-    IEnumerator test()
+    public void GenerateEgg(string n)
+    {
+        inventory.AddEgg(n, 1);
+    }
+
+    private IEnumerator Test()
     {
         yield return new WaitForSeconds(4);
         SetAttributingState(true);

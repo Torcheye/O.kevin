@@ -5760,6 +5760,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene: 0
   pointSystem: {fileID: 1656167088}
+  inventory: {fileID: 1837493581}
   kevin: {fileID: 219072466}
 --- !u!4 &1793355497
 Transform:
@@ -5990,7 +5991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98ef3871b631f4241884afbfb3446da7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridLayout: {fileID: 76123845}
+  gridLayout: {fileID: 76123845}
 --- !u!4 &1837493582
 Transform:
   m_ObjectHideFlags: 0

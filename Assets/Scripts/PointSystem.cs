@@ -20,10 +20,10 @@ public class PointSystem : MonoBehaviour
     private void OnEnable()
     {
         _emotions = new Emotion[4];
-        for (var i = 0; i < 4; i++)
-        {
-            _emotions[i] = new Emotion(0);
-        }
+        _emotions[0] = new Emotion(0, "Happiness");
+        _emotions[1] = new Emotion(0, "Sadness");
+        _emotions[2] = new Emotion(0, "Fear");
+        _emotions[3] = new Emotion(0, "Anger");
 
         PointsAvailable = maxPointsAvailable;
         _valueList = GetComponentsInChildren<TextMeshProUGUI>().ToList()
@@ -36,9 +36,24 @@ public class PointSystem : MonoBehaviour
             button.onClick.AddListener(() => UpdateValue(button.name, button.CompareTag("PointSystem.Plus")));
         }
 
-        doneButton.onClick.AddListener(() => { Toggle(true); });
+        doneButton.onClick.AddListener(() =>
+        {
+            Toggle(true);
+            GenerateEgg();
+        });
         
         Toggle(false);
+    }
+
+    private void GenerateEgg()
+    {
+        var temp = new Emotion(-1, "");
+        foreach (var emotion in _emotions)
+        {
+            if (emotion.Value > temp.Value)
+                temp = emotion;
+        }
+        GameManager.Instance.GenerateEgg(temp.Name);
     }
 
     private void UpdateValue(string valueName, bool plus)
@@ -84,10 +99,12 @@ public class PointSystem : MonoBehaviour
     private class Emotion
     {
         public int Value { get; set; }
+        public string Name { get; }
 
-        public Emotion(int v)
+        public Emotion(int v, string n)
         {
             Value = v;
+            Name = n;
         }
     }
 }
