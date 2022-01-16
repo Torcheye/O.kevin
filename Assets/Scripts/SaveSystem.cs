@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using JetBrains.Annotations;
 
 public class SaveSystem : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class SaveSystem : MonoBehaviour
         dataStream.Close();
     }
 
+    [CanBeNull]
     public List<Egg> Load()
     {
         if (File.Exists(_filePath))

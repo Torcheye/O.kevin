@@ -13,7 +13,7 @@ public class IncubatorControl : MonoBehaviour
     private void Start()
     {
         ChangeIncubationState(false);
-        
+
         incubate.GetComponent<Button>().onClick.AddListener(OnIncubate);
         skip.GetComponent<Button>().onClick.AddListener(OnSkip);
     }
@@ -21,6 +21,11 @@ public class IncubatorControl : MonoBehaviour
     private void OnSkip()
     {
         ChangeIncubationState(false);
+    }
+
+    public void AddEgg(Egg e)
+    {
+        Debug.Log("Egg " + e.Name + " Level-" + e.Level + " is ready for incubate!");
     }
 
     private void OnIncubate()
@@ -53,7 +58,7 @@ public class IncubatorControl : MonoBehaviour
         {
             timer.text = _hour.ToString("00") + ":" + _min.ToString("00");
             yield return new WaitForSecondsRealtime(1);
-            
+
             if (_min > 0)
             {
                 _min--;

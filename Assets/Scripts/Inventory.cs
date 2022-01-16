@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
@@ -7,28 +6,26 @@ using UnityEngine.UI;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private GameObject gridLayout;
-
-    private int _currentSlot;
-    private List<Image> _slots;
     private Button[] _buttons;
     private List<Egg> _eggs;
+    private Image[] _slots;
 
     private void Start()
     {
-        _currentSlot = -1;
-        _slots = gridLayout.GetComponentsInChildren<Image>().ToList();
+        _slots = gridLayout.GetComponentsInChildren<Image>();
         _buttons = gridLayout.GetComponentsInChildren<Button>();
-        _eggs = new List<Egg>();
 
-        // foreach (var button in _buttons)
-        // {
-        //     button.onClick.AddListener(delegate {  });
-        // }
+        _eggs = SaveSystem.Instance.Load();
+        if (_eggs != null)
+            UpdateInventoryDisplay();
+        else
+            _eggs = new List<Egg>();
     }
 
-    private void EggOnClick()
+    private void EggOnClick(int id)
     {
-        
+        GameManager.Instance.IncubateEgg(_eggs[id]);
+        RemoveEgg(id);
     }
 
     private void ChangeSprite(IEnumerable<string> keyList, Image s)
@@ -41,13 +38,17 @@ public class Inventory : MonoBehaviour
     {
         for (var i = 0; i < _eggs.Count; i++)
         {
+            var i1 = i;
             ChangeSprite(_eggs[i].GetKeyList(), _slots[i]);
             _slots[i].color = Color.white;
+
+            _buttons[i].onClick.AddListener(delegate { EggOnClick(i1); });
         }
 
-        for (var i = _eggs.Count; i < _slots.Count; i++)
+        for (var i = _eggs.Count; i < _slots.Length; i++)
         {
             _slots[i].color = new Color(0, 0, 0, 0);
+            _buttons[i].onClick.RemoveAllListeners();
         }
     }
 
@@ -58,7 +59,7 @@ public class Inventory : MonoBehaviour
         SaveSystem.Instance.Save(_eggs);
     }
 
-    public void RemoveEgg(int spot)
+    private void RemoveEgg(int spot)
     {
         if (_eggs.Count <= 0)
         {
