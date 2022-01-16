@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -10,9 +9,9 @@ public class UISettings : MonoBehaviour
     public const Ease SceneSwipeTransitionEase = Ease.OutExpo;
     public const float InventoryToggleTransitionTime = .4f;
     public const Ease InventoryToggleTransitionEase = Ease.OutExpo;
-    public static float ObjectsSwipeMoveScalerToUI = 0;
+    public static float ObjectsSwipeMoveScalerToUI;
 
-    private void Start()
+    private void Awake()
     {
         var cam = Camera.main;
         if (cam != null)

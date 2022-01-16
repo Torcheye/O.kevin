@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
@@ -13,11 +10,25 @@ public class Inventory : MonoBehaviour
 
     private int _currentSlot;
     private List<Image> _slots;
+    private Button[] _buttons;
+    private List<Util.Egg> _eggs;
 
     private void Start()
     {
         _currentSlot = -1;
         _slots = gridLayout.GetComponentsInChildren<Image>().ToList();
+        _buttons = gridLayout.GetComponentsInChildren<Button>();
+        _eggs = new List<Util.Egg>();
+
+        // foreach (var button in _buttons)
+        // {
+        //     button.onClick.AddListener(delegate {  });
+        // }
+    }
+
+    private void EggOnClick()
+    {
+        
     }
 
     private void ChangeSprite(IEnumerable<string> keyList, Image s)
@@ -26,28 +37,37 @@ public class Inventory : MonoBehaviour
             Addressables.MergeMode.Intersection, true);
     }
 
-    public void AddEgg(string n, int level)
+    private void UpdateInventoryDisplay()
     {
-        var keyList = new List<string> {n, level.ToString()};
-        _slots[++_currentSlot].color = Color.white;
-        ChangeSprite(keyList, _slots[_currentSlot]);
+        for (var i = 0; i < _eggs.Count; i++)
+        {
+            ChangeSprite(_eggs[i].GetKeyList(), _slots[i]);
+            _slots[i].color = Color.white;
+        }
+
+        for (var i = _eggs.Count; i < _slots.Count; i++)
+        {
+            _slots[i].color = new Color(0, 0, 0, 0);
+        }
+    }
+
+    public void AddEgg(Util.Egg e)
+    {
+        _eggs.Add(e);
+        UpdateInventoryDisplay();
+        SaveSystem.Instance.Save(_eggs);
     }
 
     public void RemoveEgg(int spot)
     {
-        if (_currentSlot == -1)
+        if (_eggs.Count <= 0)
         {
             Debug.LogError("Trying to remove egg but nothing left!");
             return;
         }
-        var temp = new List<Image>(_slots);
-        temp.RemoveAt(spot);
 
-        for (var i = 0; i < temp.Count; i++)
-        {
-            _slots[i].sprite = temp[i].sprite;
-        }
-
-        _slots[_currentSlot--].color = new Color(0, 0, 0, 0);
+        _eggs.RemoveAt(spot);
+        UpdateInventoryDisplay();
+        SaveSystem.Instance.Save(_eggs);
     }
 }

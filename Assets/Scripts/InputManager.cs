@@ -55,15 +55,21 @@ public class InputManager : MonoBehaviour
 
         var xDiff = GameManager.Instance.scene * Screen.width;
         screen.DOAnchorPosX(xDiff, UISettings.SceneSwipeTransitionTime).SetEase(UISettings.SceneSwipeTransitionEase);
-        gameObjects.DOMoveX(xDiff * UISettings.ObjectsSwipeMoveScalerToUI, UISettings.SceneSwipeTransitionTime)
-            .SetEase(UISettings.SceneSwipeTransitionEase);
+        gameObjects.DOMoveX(xDiff * UISettings.ObjectsSwipeMoveScalerToUI, UISettings.SceneSwipeTransitionTime).SetEase(UISettings.SceneSwipeTransitionEase);
     }
 
     private void OnFingerMove(Finger finger)
     {
         var touch = finger.currentTouch;
         var xDiffUI = touch.screenPosition.x - touch.startScreenPosition.x;
-        screen.anchoredPosition = new Vector2(_xStartUI + xDiffUI, 0);
-        gameObjects.position = new Vector3(_xStartObjects + xDiffUI * UISettings.ObjectsSwipeMoveScalerToUI, 0, 0);
+        
+        if (float.IsNaN(xDiffUI) || float.IsInfinity(xDiffUI))
+            return;
+
+        var destUI = _xStartUI + xDiffUI;
+        screen.anchoredPosition = new Vector2(destUI, 0);
+        
+        var destX = _xStartObjects + xDiffUI * UISettings.ObjectsSwipeMoveScalerToUI;
+        gameObjects.position = new Vector3(destX, 0, 0);
     }
 }

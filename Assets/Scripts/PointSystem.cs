@@ -13,17 +13,17 @@ public class PointSystem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI pointsAvailableText;
     [SerializeField] private Button doneButton;
     private int PointsAvailable { get; set; }
-    private Emotion[] _emotions;
+    private Util.EmotionAttribution[] _emotions;
 
     private List<TextMeshProUGUI> _valueList;
 
     private void OnEnable()
     {
-        _emotions = new Emotion[4];
-        _emotions[0] = new Emotion(0, "Happiness");
-        _emotions[1] = new Emotion(0, "Sadness");
-        _emotions[2] = new Emotion(0, "Fear");
-        _emotions[3] = new Emotion(0, "Anger");
+        _emotions = new Util.EmotionAttribution[4];
+        _emotions[0] = new Util.EmotionAttribution(0, "Happiness");
+        _emotions[1] = new Util.EmotionAttribution(0, "Sadness");
+        _emotions[2] = new Util.EmotionAttribution(0, "Fear");
+        _emotions[3] = new Util.EmotionAttribution(0, "Anger");
 
         PointsAvailable = maxPointsAvailable;
         _valueList = GetComponentsInChildren<TextMeshProUGUI>().ToList()
@@ -47,7 +47,7 @@ public class PointSystem : MonoBehaviour
 
     private void GenerateEgg()
     {
-        var temp = new Emotion(-1, "");
+        var temp = new Util.EmotionAttribution(-1, "");
         foreach (var emotion in _emotions)
         {
             if (emotion.Value > temp.Value)
@@ -94,17 +94,5 @@ public class PointSystem : MonoBehaviour
         await tween.AsyncWaitForCompletion();
         GameManager.Instance.SetAttributingState(!down);
         gameObject.SetActive(!down);
-    }
-
-    private class Emotion
-    {
-        public int Value { get; set; }
-        public string Name { get; }
-
-        public Emotion(int v, string n)
-        {
-            Value = v;
-            Name = n;
-        }
     }
 }

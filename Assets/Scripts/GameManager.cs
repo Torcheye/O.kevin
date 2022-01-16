@@ -1,7 +1,5 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -38,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     public void GenerateEgg(string n)
     {
-        inventory.AddEgg(n, 1);
+        inventory.AddEgg(new Util.Egg(n, 1));
     }
 
     private IEnumerator Test()
