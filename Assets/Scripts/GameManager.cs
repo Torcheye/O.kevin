@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     public void GenerateEgg(string n)
     {
-        inventory.AddEgg(new Util.Egg(n, 1));
+        inventory.AddEgg(new Egg(n, 1));
     }
 
     private IEnumerator Test()

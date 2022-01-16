@@ -13,17 +13,17 @@ public class PointSystem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI pointsAvailableText;
     [SerializeField] private Button doneButton;
     private int PointsAvailable { get; set; }
-    private Util.EmotionAttribution[] _emotions;
+    private EmotionAttribution[] _emotions;
 
     private List<TextMeshProUGUI> _valueList;
 
     private void OnEnable()
     {
-        _emotions = new Util.EmotionAttribution[4];
-        _emotions[0] = new Util.EmotionAttribution(0, "Happiness");
-        _emotions[1] = new Util.EmotionAttribution(0, "Sadness");
-        _emotions[2] = new Util.EmotionAttribution(0, "Fear");
-        _emotions[3] = new Util.EmotionAttribution(0, "Anger");
+        _emotions = new EmotionAttribution[4];
+        _emotions[0] = new EmotionAttribution(0, "Happiness");
+        _emotions[1] = new EmotionAttribution(0, "Sadness");
+        _emotions[2] = new EmotionAttribution(0, "Fear");
+        _emotions[3] = new EmotionAttribution(0, "Anger");
 
         PointsAvailable = maxPointsAvailable;
         _valueList = GetComponentsInChildren<TextMeshProUGUI>().ToList()
@@ -47,7 +47,7 @@ public class PointSystem : MonoBehaviour
 
     private void GenerateEgg()
     {
-        var temp = new Util.EmotionAttribution(-1, "");
+        var temp = new EmotionAttribution(-1, "");
         foreach (var emotion in _emotions)
         {
             if (emotion.Value > temp.Value)

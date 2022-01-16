@@ -1,33 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-public class Util
+public class EmotionAttribution
 {
-    public class EmotionAttribution
-    {
-        public int Value { get; set; }
-        public string Name { get; }
+    public int Value { get; set; }
+    public string Name { get; }
 
-        public EmotionAttribution(int v, string n)
-        {
-            Value = v;
-            Name = n;
-        }
+    public EmotionAttribution(int v, string n)
+    {
+        Value = v;
+        Name = n;
+    }
+}
+
+[Serializable]
+public class Egg
+{
+    private string Name { get; }
+    private int Level { get; }
+
+    public Egg(string n, int l)
+    {
+        Name = n;
+        Level = l;
     }
 
-    public class Egg
+    public List<string> GetKeyList()
     {
-        private string Name { get; }
-        private int Level { get; }
-
-        public Egg(string n, int l)
-        {
-            Name = n;
-            Level = l;
-        }
-
-        public List<string> GetKeyList()
-        {
-            return new List<string> {Name, Level.ToString()};
-        }
+        return new List<string> {Name, Level.ToString()};
     }
 }

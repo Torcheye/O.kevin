@@ -22,7 +22,7 @@ public class SaveSystem : MonoBehaviour
         _filePath = Application.persistentDataPath + "/eggs.ted";
     }
 
-    public void Save(List<Util.Egg> saveData)
+    public void Save(List<Egg> saveData)
     {
         var dataStream = new FileStream(_filePath, FileMode.Create);
         var converter = new BinaryFormatter();
@@ -31,7 +31,7 @@ public class SaveSystem : MonoBehaviour
         dataStream.Close();
     }
 
-    public List<Util.Egg> Load()
+    public List<Egg> Load()
     {
         if (File.Exists(_filePath))
         {
@@ -44,7 +44,7 @@ public class SaveSystem : MonoBehaviour
                 return null;
             }
 
-            var saveData = converter.Deserialize(dataStream) as List<Util.Egg>;
+            var saveData = converter.Deserialize(dataStream) as List<Egg>;
 
             dataStream.Close();
             return saveData;

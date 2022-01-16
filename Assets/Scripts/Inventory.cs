@@ -11,14 +11,14 @@ public class Inventory : MonoBehaviour
     private int _currentSlot;
     private List<Image> _slots;
     private Button[] _buttons;
-    private List<Util.Egg> _eggs;
+    private List<Egg> _eggs;
 
     private void Start()
     {
         _currentSlot = -1;
         _slots = gridLayout.GetComponentsInChildren<Image>().ToList();
         _buttons = gridLayout.GetComponentsInChildren<Button>();
-        _eggs = new List<Util.Egg>();
+        _eggs = new List<Egg>();
 
         // foreach (var button in _buttons)
         // {
@@ -51,7 +51,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void AddEgg(Util.Egg e)
+    public void AddEgg(Egg e)
     {
         _eggs.Add(e);
         UpdateInventoryDisplay();
