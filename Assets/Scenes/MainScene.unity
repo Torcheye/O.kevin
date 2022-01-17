@@ -5832,6 +5832,7 @@ MonoBehaviour:
   scene: 0
   pointSystem: {fileID: 1656167088}
   inventory: {fileID: 1837493581}
+  Incubator: {fileID: 1734023672}
   kevin: {fileID: 219072466}
 --- !u!4 &1793355497
 Transform:
